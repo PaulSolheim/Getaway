@@ -9,6 +9,7 @@ func _ready():
 	selected_IP.text = Network.DEFAULT_IP
 	port.text = str(Network.DEFAULT_PORT)
 
+
 func _on_HostButton_pressed():
 	Network.selected_port = int(port.text)
 	Network.create_server()

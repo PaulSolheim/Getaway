@@ -47,7 +47,7 @@ material/2 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.550489, -1.243 )
 wheel_radius = 0.4
 wheel_rest_length = 0.2
-wheel_friction_slip = 5.0
+wheel_friction_slip = 9.0
 suspension_travel = 0.4
 suspension_stiffness = 25.0
 suspension_max_force = 500.0
@@ -84,7 +84,7 @@ material/2 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.550489, -1.243 )
 wheel_radius = 0.4
 wheel_rest_length = 0.2
-wheel_friction_slip = 5.0
+wheel_friction_slip = 9.0
 suspension_travel = 0.4
 suspension_stiffness = 25.0
 suspension_max_force = 500.0
@@ -100,5 +100,6 @@ material/2 = null
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 4, -10 )
+doppler_tracking = 2
 current = true
 far = 600.0
