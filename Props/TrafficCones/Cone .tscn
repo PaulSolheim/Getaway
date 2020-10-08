@@ -76,3 +76,6 @@ doppler_tracking = 2
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
 one_shot = true
+[connection signal="body_entered" from="." to="." method="_on_Cone__body_entered"]
+[connection signal="sleeping_state_changed" from="." to="." method="_on_Cone__sleeping_state_changed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
