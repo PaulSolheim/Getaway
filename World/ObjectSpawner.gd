@@ -1,6 +1,7 @@
 extends Node
 
 var tiles = []
+var cafe_spots = []
 var map_size = Vector2()
 
 var number_of_parked_cars = 100
@@ -8,15 +9,21 @@ var number_of_billboards = 75
 var number_of_traffic_cones = 40
 var number_of_hydrants = 50
 var number_of_streetlights = 50
+var number_of_ramps = 25
+var number_of_scaffolding = 25
+var number_of_cafes = 20
 
-func generate_props(tile_list, size):
+func generate_props(tile_list, size, plazas):
 	tiles = tile_list
 	map_size = size
+	cafe_spots = plazas
 	place_cars()
 	place_billboards()
 	place_traffic_cones()
 	place_hydrants()
 	place_streetlights()
+	place_scaffolding()
+	place_cafes()
 
 func random_tiles(tile_count):
 	var tile_list = tiles
@@ -28,7 +35,7 @@ func random_tiles(tile_count):
 	return selected_tiles
 
 func place_cars():
-	var tile_list = random_tiles(number_of_parked_cars)
+	var tile_list = random_tiles(number_of_parked_cars + number_of_ramps)
 	for i in range(number_of_parked_cars):
 		var tile = tile_list[0]
 		var tile_type = get_node("..").get_cell_item(tile.x, 0, tile.z)
@@ -38,12 +45,31 @@ func place_cars():
 			tile.y = tile.y+0.5  # adjust for the height of the cars
 			rpc("spawn_cars", tile, tile_rotation)
 		tile_list.pop_front()
+	place_ramps(tile_list)
 
 sync func spawn_cars(tile, car_rotation):
 	var car = preload("res://Props/ParkedCars.tscn").instance()
 	car.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
 	car.rotation_degrees.y = car_rotation
 	add_child(car, true)
+
+func place_ramps(tile_list):
+	for i in range(number_of_ramps):
+		var tile = tile_list[0]
+		var tile_type = get_node("..").get_cell_item(tile.x, 0, tile.z)
+		var allowed_rotations = $ObjectRotLookup.lookup_rotation(tile_type)
+		if not allowed_rotations == null:
+			var tile_rotation = allowed_rotations[randi() % allowed_rotations.size() -1] * -1
+			tile.y = tile.y+0.5  # adjust for the height of the cars
+			rpc("spawn_ramps", tile, tile_rotation)
+		tile_list.pop_front()
+
+sync func spawn_ramps(tile, ramp_rotation):
+	var ramp = preload("res://Props/Dumpster/Dumpster.tscn").instance()
+	ramp.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
+	ramp.rotation_degrees.y = ramp_rotation
+	add_child(ramp, true)
+
 
 func place_billboards():
 	var tile_list = random_tiles(number_of_billboards)
@@ -116,3 +142,43 @@ sync func spawn_streetlights(tile, streetlights_rotation):
 	streetlights.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
 	streetlights.rotation_degrees.y = streetlights_rotation
 	add_child(streetlights, true)
+
+func place_scaffolding():
+	var tile_list = random_tiles(number_of_scaffolding)
+	for i in range(number_of_scaffolding):
+		var tile = tile_list[0]
+		var tile_type = get_node("..").get_cell_item(tile.x, 0, tile.z)
+		var allowed_rotations = $ObjectRotLookup.lookup_rotation(tile_type)
+		if not allowed_rotations == null:
+			var tile_rotation = allowed_rotations[randi() % allowed_rotations.size() -1] * -1
+			tile.y = tile.y+0.5  # adjust for the height of the cars
+			rpc("spawn_scaffolding", tile, tile_rotation)
+		tile_list.pop_front()
+
+sync func spawn_scaffolding(tile, scaffolding_rotation):
+	var scaffolding = preload("res://Props/Scaffolding/Scaffolding.tscn").instance()
+	scaffolding.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
+	scaffolding.rotation_degrees.y = scaffolding_rotation
+	add_child(scaffolding, true)
+
+func place_cafes():
+	cafe_spots.shuffle()
+	for i in range(number_of_cafes):
+		var tile = cafe_spots[i]
+		var building_rotation = tile[0]
+		var tile_position = Vector3(tile[1], 0.5, tile[2])
+		var tile_rotation = 0
+		
+		if building_rotation == 10:
+			tile_rotation = 180
+		elif building_rotation == 16:
+			tile_rotation = 90
+		elif building_rotation == 22:
+			tile_rotation = 270
+		rpc("spawn_cafes", tile_position, tile_rotation)
+
+sync func spawn_cafes(tile, cafe_rotation):
+	var cafe = preload("res://Props/Cafe/Cafe.tscn").instance()
+	cafe.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
+	cafe.rotation_degrees.y = cafe_rotation
+	add_child(cafe, true)

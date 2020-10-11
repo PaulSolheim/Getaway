@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World/World.gd" type="Script" id=1]
-[ext_resource path="res://Tiles/CityMeshes/updated_city.meshlib" type="MeshLibrary" id=2]
+[ext_resource path="res://Tiles/CityMeshes/new_city.meshlib" type="MeshLibrary" id=2]
 [ext_resource path="res://World/GridMap.gd" type="Script" id=3]
 [ext_resource path="res://World/Border.tscn" type="PackedScene" id=4]
 [ext_resource path="res://World/ObjectSpawner.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Props/Zeppelin/Zeppelin .tscn" type="PackedScene" id=6]
 
 [node name="World" type="Spatial" groups=[
 "gamestate",
@@ -17,7 +18,7 @@ script = ExtResource( 1 )
 mesh_library = ExtResource( 2 )
 cell_size = Vector3( 20, 1, 20 )
 data = {
-"cells": PoolIntArray( 0, 0, 5, 1, 0, 0, 2, 0, 536870919, 65535, 0, 8, 0, 1, 5, 1, 1, 6, 65535, 1, 8, 65535, 2, 1073741838, 65535, 65533, 11, 0, 65534, 5, 1, 65534, 3, 65535, 65534, 8, 0, 65535, 5, 1, 65535, 0, 2, 65535, 7, 65535, 65535, 8 )
+"cells": PoolIntArray( 0, 0, 1073741829, 1, 0, 0, 2, 0, 7, 65535, 0, 8, 0, 1, 5, 1, 1, 6, 65535, 1, 8, 65535, 2, 14, 65535, 65533, 11, 0, 65534, 5, 1, 65534, 3, 65535, 65534, 8, 0, 65535, 5, 1, 65535, 0, 2, 65535, 7, 65535, 65535, 8 )
 }
 script = ExtResource( 3 )
 __meta__ = {
@@ -33,3 +34,5 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 200, 40
 visible = false
 current = true
 far = 1000.0
+
+[node name="Zeppelin " parent="." instance=ExtResource( 6 )]

@@ -14,6 +14,10 @@ var erase_fraction = 0.20
 var cell_walls = {Vector3(0,0,-spacing) : N, Vector3(spacing,0,0) : E,
 		Vector3(0,0,spacing) : S, Vector3(-spacing,0,0) : W}
 
+var plaza_tiles = [17,21,23,26]
+var cafe_spots = []
+
+
 func _ready():
 	clear()
 	if Network.local_player_id == 1:
@@ -36,14 +40,30 @@ func make_blank_map():
 		for z in height:
 			var possible_rotations = [0,10,16,22]
 			var building_rotation = possible_rotations[randi() % 4]
-			var building = pick_building()
+			var building = pick_building(x,z)
 			rpc("place_cell", x, z, building, building_rotation)
 			
 
-func pick_building():
+func pick_building(x,z):
 	var chance_of_skyscraper = 1
 	var skyscraper = 16
-	var possible_buildings = [17,18]
+	
+	var neighborhood_1 = [17,18,19]
+	var neighborhood_2 = [20,21]
+	var neighborhood_3 = [22,23,24]
+	var neighborhood_4 = [25,26,27]
+	
+	var possible_buildings
+
+	if x >= width/2 and z >= height/2:
+		possible_buildings = neighborhood_2
+	elif x >= width/2 and z <= height/2:
+		possible_buildings = neighborhood_3
+	elif x <= width/2 and z >= height/2:
+		possible_buildings = neighborhood_4
+	else:
+		possible_buildings = neighborhood_1
+
 	var building
 	if (randi() % 99) +1 <= chance_of_skyscraper:
 		building = skyscraper
@@ -140,8 +160,12 @@ func record_tile_positions():
 			var current_tile_type = get_cell_item(current_cell.x, 0, current_cell.z)
 			if current_tile_type < 15:
 				tiles.append(current_cell)
+			elif current_tile_type in plaza_tiles:
+				var building_rotation = get_cell_item_orientation(current_cell.x, 0, current_cell.z)
+				var plaza_location = [building_rotation, x, z]
+				cafe_spots.append(plaza_location)
 	var map_size = Vector2(width, height)
-	$ObjectSpawner.generate_props(tiles, map_size)
+	$ObjectSpawner.generate_props(tiles, map_size, cafe_spots)
 
 sync func send_ready():
 	if Network.local_player_id == 1:

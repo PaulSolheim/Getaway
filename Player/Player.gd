@@ -25,6 +25,7 @@ func _physics_process(delta):
 	brake = players[name].brakes
 
 func _ready():
+	join_team()
 	players[name] = player_data
 	players[name].position = transform
 	
@@ -33,6 +34,13 @@ func _ready():
 
 func is_local_Player():
 	return name == str(Network.local_player_id)
+
+func join_team():
+	if Network.players[int(name)]["is_cop"]:
+		add_to_group("cops")
+		$RobberMesh.queue_free()
+	else:
+		$CopMesh.queue_free()
 
 func drive(delta):
 	var steering_value = apply_steering(delta)
