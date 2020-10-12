@@ -142,6 +142,7 @@ tracks/0/keys = {
 
 [node name="Zeppelin " type="MeshInstance"]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -50, 75, -50 )
+layers = 2
 mesh = SubResource( 1 )
 material/0 = null
 material/1 = null
@@ -154,6 +155,7 @@ anims/zeppelin = SubResource( 2 )
 [node name="FlashingLight" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 29.6948 )
 visible = false
+layers = 2
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
@@ -164,6 +166,7 @@ anims/FlashingLight = SubResource( 5 )
 [node name="FlashingLight2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.59247, 0, -5.8847 )
 visible = false
+layers = 2
 mesh = SubResource( 3 )
 material/0 = SubResource( 6 )
 
@@ -174,6 +177,7 @@ anims/FlashingLight = SubResource( 7 )
 [node name="FlashingLight3" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.68906, 0, -5.8847 )
 visible = false
+layers = 2
 mesh = SubResource( 3 )
 material/0 = SubResource( 8 )
 
