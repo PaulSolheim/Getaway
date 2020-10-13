@@ -4,6 +4,7 @@ var tiles = []
 var cafe_spots = []
 var map_size = Vector2()
 
+var number_of_beacons = 20
 var number_of_parked_cars = 100
 var number_of_billboards = 75
 var number_of_traffic_cones = 40
@@ -17,6 +18,7 @@ func generate_props(tile_list, size, plazas):
 	tiles = tile_list
 	map_size = size
 	cafe_spots = plazas
+	place_beacons()
 	place_cars()
 	place_billboards()
 	place_traffic_cones()
@@ -33,6 +35,18 @@ func random_tiles(tile_count):
 		var tile = tile_list[i]
 		selected_tiles.append(tile)
 	return selected_tiles
+
+func place_beacons():
+	var tile_list = random_tiles(number_of_beacons)
+	for i in range(number_of_beacons):
+		var tile = tile_list[i]
+		rpc("spawn_beacons", tile)
+
+sync func spawn_beacons(tile):
+	var beacon = preload("res://Beacon/Beacon.tscn").instance()
+	beacon.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
+	add_child(beacon, true)
+
 
 func place_cars():
 	var tile_list = random_tiles(number_of_parked_cars + number_of_ramps)
