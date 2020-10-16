@@ -36,6 +36,7 @@ func random_tiles(tile_count):
 		selected_tiles.append(tile)
 	return selected_tiles
 
+
 func place_beacons():
 	var tile_list = random_tiles(number_of_beacons)
 	for i in range(number_of_beacons):
