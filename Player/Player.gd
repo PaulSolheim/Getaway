@@ -11,6 +11,7 @@ var steer_target = 0.0 # where do I want the wheels to go?
 var steer_angle = 0.0 # where are the wheels now
 
 var money = 0
+var money_drop = 50
 var money_per_beacon = 1000
 
 sync var players = {}
@@ -42,12 +43,14 @@ func is_local_Player():
 	return name == str(Network.local_player_id)
 
 func join_team():
+	print("join_team, id: " + name)
 	if Network.players[int(name)]["is_cop"]:
 		add_to_group("cops")
 		collision_layer = 4
 		$RobberMesh.queue_free()
 	else:
 		$CopMesh.queue_free()
+		$Arrow.queue_free()
 
 func drive(delta):
 	var speed = players[name].speed
@@ -142,3 +145,22 @@ remote func display_money(cash):
 	$GUI/ColorRect/VBoxContainer/MoneyLabel/AnimationPlayer.play("MoneyPulse")
 	$GUI/ColorRect/VBoxContainer/MoneyLabel.text = "£" + str(cash)
 
+func money_delivered():
+	get_tree().call_group("Announcements", "money_stashed", Saved.save_data["Player_name"], money)
+	money = 0
+	manage_money()
+
+func _on_Player_body_entered(body):
+	if body.has_node("Money"):
+		body.queue_free()
+		money += money_drop
+	elif money > 0 and not is_in_group("cops"):
+		spawn_money()
+		money -= money_drop
+	manage_money()
+
+func spawn_money():
+	var moneybag = preload("res://Props/MoneyBag/MoneyBag.tscn").instance()
+	moneybag.translation = Vector3(translation.x, 4, translation.z)
+	get_parent().get_parent().add_child(moneybag)
+	

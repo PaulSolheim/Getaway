@@ -14,6 +14,8 @@ var number_of_ramps = 25
 var number_of_scaffolding = 25
 var number_of_cafes = 20
 
+signal cop_spawn
+
 func generate_props(tile_list, size, plazas):
 	tiles = tile_list
 	map_size = size
@@ -38,16 +40,23 @@ func random_tiles(tile_count):
 
 
 func place_beacons():
-	var tile_list = random_tiles(number_of_beacons)
+	var tile_list = random_tiles(number_of_beacons + 1)
 	for i in range(number_of_beacons):
-		var tile = tile_list[i]
+		var tile = tile_list[0]
 		rpc("spawn_beacons", tile)
+		tile_list.pop_front()
+	rpc("spawn_goal", tile_list[0])
 
 sync func spawn_beacons(tile):
 	var beacon = preload("res://Beacon/Beacon.tscn").instance()
 	beacon.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
 	add_child(beacon, true)
 
+sync func spawn_goal(tile):
+	var goal = preload("res://Beacon/Goal.tscn").instance()
+	goal.translation = Vector3((tile.x * 20) +10, tile.y, (tile.z * 20) +10)
+	add_child(goal)
+	emit_signal("cop_spawn", goal.translation)
 
 func place_cars():
 	var tile_list = random_tiles(number_of_parked_cars + number_of_ramps)
