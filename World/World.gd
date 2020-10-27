@@ -2,6 +2,7 @@ extends Spatial
 
 var cop_spawn
 
+
 func _enter_tree():
 	get_tree().set_pause(true)
 
