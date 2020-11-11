@@ -11,5 +11,5 @@ dest_files=[ "res://.import/ratchet.ogg-db284fbc757ec2009e10cf396429df4c.oggstr"
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

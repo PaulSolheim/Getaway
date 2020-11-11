@@ -18,3 +18,13 @@ sync func announce_crime(location):
 	announce()
 	get_tree().call_group("Arrow", "new_destination", location)
 
+func victory(criminals_win):
+	rpc("announce_victory", criminals_win)
+	
+sync func announce_victory(criminals_win):
+	if criminals_win:
+		$Label.text = "Kriminelle er Konger, kaos i gatene!"
+	else:
+		$Label.text = "Politiet ruler, alt er i orden."
+	announce()
+	

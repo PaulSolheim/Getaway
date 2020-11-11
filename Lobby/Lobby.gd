@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 onready var NameTextbox = $VBoxContainer/CenterContainer/GridContainer/NameTextBox
 onready var port = $VBoxContainer/CenterContainer/GridContainer/PortTextBox
@@ -41,3 +41,21 @@ func _on_ReadyButton_pressed():
 
 func _on_TeamCheck_toggled(button_pressed):
 	is_cop = button_pressed
+
+
+func _on_TeamCheck_item_selected(index):
+	if not int(is_cop) == index:
+		var button = $VBoxContainer/CenterContainer/GridContainer/TeamCheck
+		button.set_item_disabled(0, true)
+		button.set_item_disabled(1, true)
+		is_cop = index
+		$LobbyBackground.pivot()
+
+func _on_Tween_tween_completed(object, key):
+	var button = $VBoxContainer/CenterContainer/GridContainer/TeamCheck
+	button.set_item_disabled(0, false)
+	button.set_item_disabled(1, false)
+
+
+func _on_ColorPickerButton_color_changed(color):
+	$LobbyBackground.new_colour(color)

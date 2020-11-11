@@ -2,6 +2,10 @@ extends Spatial
 
 var cop_spawn
 
+var money_stashed = 0
+var money_recovered = 0
+export var criminal_victory_score = 3000
+export var cop_victory_score = 3000
 
 func _enter_tree():
 	get_tree().set_pause(true)
@@ -41,3 +45,16 @@ func unpause():
 func _on_ObjectSpawner_cop_spawn(location):
 	cop_spawn = location
 	
+remote func update_gamestate(stashed, recovered):
+	if Network.local_player_id == 1:
+		money_stashed += stashed
+		money_recovered += recovered
+		check_win_conditions()
+	else:
+		rpc_id(1, "update_gamestate", stashed, recovered)
+
+func check_win_conditions():
+	if money_stashed >= criminal_victory_score:
+		get_tree().call_group("Announcements", "victory", true)
+	elif money_recovered >= cop_victory_score:
+		get_tree().call_group("Announcements", "victory", false)
