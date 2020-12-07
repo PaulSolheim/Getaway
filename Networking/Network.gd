@@ -13,6 +13,11 @@ sync var player_data = {}
 var ready_players = 0
 
 var is_cop = false
+var city_size = Vector2()
+var prop_multiplier
+var world_seed
+
+var environment
 
 signal player_disconnected
 signal server_disconnected
@@ -42,6 +47,7 @@ func add_to_player_list():
 	player_data = Saved.save_data
 	players[local_player_id] = player_data
 	players[local_player_id]["is_cop"] = is_cop
+	players[local_player_id]["paint_colour"] = Saved.save_data["local_paint_colour"]
 
 func _connected_to_server():
 	add_to_player_list()
@@ -65,8 +71,8 @@ sync func update_waiting_room():
 	get_tree().call_group("WaitingRoom", "refresh_players", players)
 
 func start_game():
-	rpc("load_world")
+	rpc("load_world", Network.environment)
 
-sync func load_world():
-	print("trying to load World scene")
+sync func load_world(selected_environment):
+	environment = selected_environment
 	get_tree().change_scene("res://World/World.tscn")

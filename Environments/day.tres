@@ -1,0 +1,19 @@
+[gd_resource type="Environment" load_steps=3 format=2]
+
+[ext_resource path="res://Environments/HDRI/sky0043.hdr" type="Texture" id=1]
+
+[sub_resource type="PanoramaSky" id=1]
+radiance_size = 3
+panorama = ExtResource( 1 )
+
+[resource]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_energy = 1.5
+ambient_light_color = Color( 0.898039, 0.898039, 0.835294, 1 )
+ambient_light_energy = 2.0
+ambient_light_sky_contribution = 0.75
+tonemap_mode = 2
+tonemap_white = 2.0
+ss_reflections_enabled = true
+ssao_enabled = true

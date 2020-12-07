@@ -10,6 +10,10 @@ export var cop_victory_score = 3000
 func _enter_tree():
 	get_tree().set_pause(true)
 
+func _input(event):
+	if Input.is_action_just_pressed("menu"):
+		$AudioMenu.visible = !$AudioMenu.visible
+
 func _ready():
 	pass
 
@@ -39,8 +43,12 @@ func unpause():
 	# rpc("spawn_remote_player", Network.local_player_id)
 	for key in Network.players.keys():
 		if (key != Network.local_player_id):
-			print("Key: " + str(key))
 			spawn_remote_player(key)
+	if Network.environment == "res://Environments/night.tres":
+		$Sun.queue_free()
+	else:
+		get_tree().call_group("lights", "queue_free")
+
 
 func _on_ObjectSpawner_cop_spawn(location):
 	cop_spawn = location

@@ -5,8 +5,8 @@ const E = 2
 const S = 4
 const W = 8
 
-var width = 20
-var height = 20
+var width
+var height
 var spacing = 2
 
 var erase_fraction = 0.20
@@ -22,10 +22,16 @@ func _ready():
 	clear()
 	if Network.local_player_id == 1:
 		randomize()
+		get_map_settings()
 		make_map_border()
 		make_map()
 		record_tile_positions()
 		rpc("send_ready")
+
+func get_map_settings():
+	seed(Network.world_seed)
+	width = Network.city_size.x
+	height = Network.city_size.y
 
 func make_map_border():
 	$Border.resize_border(cell_size.x, width) # assumes square maps

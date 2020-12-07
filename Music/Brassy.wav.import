@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Brassy.wav-f60408ba20bb39b2abd843bae722093a.sample"
+
+[deps]
+
+source_file="res://Music/Brassy.wav"
+dest_files=[ "res://.import/Brassy.wav-f60408ba20bb39b2abd843bae722093a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0
