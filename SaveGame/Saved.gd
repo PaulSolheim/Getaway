@@ -13,7 +13,12 @@ func get_data():
 					 "local_paint_colour": "ff6e2626",
 					 "master_volume": -10,
 					 "sfx_volume": -10,
-					 "music_volume": -10}
+					 "music_volume": -10,
+					 "dof": false,
+					 "reflections": false,
+					 "fog": false,
+					 "particles": false,
+					 "far_cam": false}
 		save_game()
 	file.open(SAVEGAME, File.READ)
 	var content = file.get_as_text()

@@ -6,17 +6,21 @@ onready var selected_IP = $VBoxContainer/CenterContainer/GridContainer/IPTextBox
 
 var is_cop = false
 var city_size
+var is_host = false
 
 var environment = "res://Environments/night.tres"
 
 func _ready():
 	NameTextbox.text = Saved.save_data["Player_name"]
+	$PlayerLabel.text = Saved.save_data["Player_name"] + "'s Garage"
 	selected_IP.text = Network.DEFAULT_IP
 	port.text = str(Network.DEFAULT_PORT)
 	_on_CitySizePicker_item_selected(1)
 	$VBoxContainer/CenterContainer/GridContainer/ColorPickerButton.color = Color(Saved.save_data["local_paint_colour"])
+	get_tree().call_group("HostOnly", "hide")
+	get_tree().call_group("ClientOnly", "show")
 
-func _on_HostButton_pressed():
+func host_game():
 	Network.selected_port = int(port.text)
 	Network.is_cop = is_cop
 	Network.create_server()
@@ -34,7 +38,7 @@ func generate_city_seed():
 	else:
 		Network.world_seed = hash(world_seed)
 
-func _on_JoinButton_pressed():
+func join_game():
 	Network.selected_port = int(port.text)
 	Network.selected_IP = selected_IP.text
 	Network.is_cop = is_cop
@@ -44,6 +48,7 @@ func _on_JoinButton_pressed():
 func _on_NameTextBox_text_changed(new_text):
 	Saved.save_data["Player_name"] = NameTextbox.text
 	Saved.save_game()
+	$PlayerLabel.text = Saved.save_data["Player_name"] + "'s Garage"
 
 func create_waiting_room():
 	$WaitingRoom.popup_centered()
@@ -88,12 +93,30 @@ func _on_CitySizePicker_item_selected(index):
 			city_size = Vector2(100,100)
 			Network.prop_multiplier = 5
 
-func _on_AudioButton_pressed():
-	$AudioMenu.popup_centered()
-
 func _on_TimeCheck_item_selected(index):
 	match index:
 		0:
 			environment = "res://Environments/night.tres"
 		1:
 			environment = "res://Environments/day.tres"
+	get_tree().call_group("Cameras", "change_environment", environment)
+
+func _on_OptionsButton_pressed():
+	$InGameMenu.popup_centered()
+
+func _on_OptionButton_item_selected(index):
+	is_host = index
+	if is_host:
+		get_tree().call_group("HostOnly", "show")
+		get_tree().call_group("ClientOnly", "hide")
+	else:
+		get_tree().call_group("HostOnly", "hide")
+		get_tree().call_group("ClientOnly", "show")
+
+
+func _on_PlayButton_pressed():
+	if is_host:
+		host_game()
+	else:
+		join_game()
+

@@ -19,6 +19,7 @@ func _ready():
 	environment = load(Network.environment)
 	follow_this = get_node(follow_this_path)
 	last_lookat = follow_this.global_transform.origin
+	check_saved_settings()
 	
 
 func _physics_process(delta):
@@ -57,8 +58,40 @@ func manage_Bus_levels():
 	
 	for i in range(3, 7):
 		AudioServer.set_bus_mute(i, !neighbourhood[i])
-	
 
 func update_speed(speed):
 	fov = 70 + speed
 	fov = min(fov, MAX_CAMERA_ANGLE)
+
+func check_saved_settings():
+	if Saved.save_data["far_cam"]:
+		far = 750
+	else:
+		far = 250
+	environment.dof_blur_far_enabled = Saved.save_data["dof"]
+	environment.ss_reflections_enabled = Saved.save_data["reflections"]
+	environment.fog_enabled = Saved.save_data["fog"]
+
+func far_cam(value):
+	if value:
+		far = 750
+	else:
+		far = 250
+	Saved.save_data["far_cam"] = value
+	Saved.save_game()
+
+func dof(value):
+	environment.dof_blur_far_enabled = value
+	Saved.save_data["dof"] = value
+	Saved.save_game()
+
+func reflections(value):
+	environment.ss_reflections_enabled = value
+	Saved.save_data["reflections"] = value
+	Saved.save_game()
+
+func fog(value):
+	environment.fog_enabled = value
+	Saved.save_data["fog"] = value
+	Saved.save_game()
+

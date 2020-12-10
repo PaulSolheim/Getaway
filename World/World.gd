@@ -12,7 +12,7 @@ func _enter_tree():
 
 func _input(event):
 	if Input.is_action_just_pressed("menu"):
-		$AudioMenu.visible = !$AudioMenu.visible
+		$InGameMenu.visible = !$InGameMenu.visible
 
 func _ready():
 	pass

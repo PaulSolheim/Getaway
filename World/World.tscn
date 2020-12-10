@@ -6,7 +6,7 @@
 [ext_resource path="res://World/Border.tscn" type="PackedScene" id=4]
 [ext_resource path="res://World/ObjectSpawner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Props/Zeppelin/Zeppelin .tscn" type="PackedScene" id=6]
-[ext_resource path="res://GUI/AudioMenu.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GUI/InGameMenu.tscn" type="PackedScene" id=7]
 
 [node name="World" type="Spatial" groups=[
 "gamestate",
@@ -19,7 +19,7 @@ script = ExtResource( 1 )
 mesh_library = ExtResource( 2 )
 cell_size = Vector3( 20, 1, 20 )
 data = {
-"cells": PoolIntArray( 0, 0, 5, 1, 0, 0, 2, 0, 7, 65535, 0, 8, 0, 1, 536870917, 1, 1, 6, 65535, 1, 8, 65535, 2, 14, 65535, 65533, 11, 0, 65534, 5, 1, 65534, 536870915, 65535, 65534, 8, 0, 65535, 5, 1, 65535, 0, 2, 65535, 7, 65535, 65535, 8 )
+"cells": PoolIntArray( 0, 0, 5, 1, 0, 0, 2, 0, 7, 65535, 0, 8, 0, 1, 5, 1, 1, 6, 65535, 1, 8, 65535, 2, 536870926, 65535, 65533, 11, 0, 65534, 5, 1, 65534, 3, 65535, 65534, 8, 0, 65535, 5, 1, 65535, 0, 2, 65535, 7, 65535, 65535, 8 )
 }
 script = ExtResource( 3 )
 __meta__ = {
@@ -32,13 +32,13 @@ __meta__ = {
 
 [node name="Zeppelin " parent="." instance=ExtResource( 6 )]
 
-[node name="AudioMenu" parent="." instance=ExtResource( 7 )]
-visible = false
-
 [node name="Sun" type="DirectionalLight" parent="."]
 transform = Transform( -0.622054, 0.745093, 0.240592, 0.450571, 0.0893471, 0.888258, 0.640339, 0.660949, -0.391296, 40.3324, 36.923, 18.2576 )
 light_energy = 2.0
 light_indirect_energy = 2.0
 shadow_enabled = true
 shadow_color = Color( 0.247059, 0.231373, 0.309804, 1 )
+
+[node name="InGameMenu" parent="." instance=ExtResource( 7 )]
+visible = false
 [connection signal="cop_spawn" from="GridMap/ObjectSpawner" to="." method="_on_ObjectSpawner_cop_spawn"]

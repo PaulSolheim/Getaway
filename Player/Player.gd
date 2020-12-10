@@ -141,6 +141,7 @@ func update_server(id, steering_value, throttle, brakes, speed):
 	else:
 		manage_clients(id, steering_value, throttle, brakes, speed)
 	get_tree().call_group("Interface", "update_speed", speed)
+	$Exhaust.update_particles(speed)
 
 sync func manage_clients(id, steering_value, throttle, brakes, speed):
 	players[id].steer = steering_value

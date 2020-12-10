@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://GUI/default.theme" type="Theme" id=1]
 [ext_resource path="res://Lobby/Lobby.gd" type="Script" id=2]
@@ -6,9 +6,27 @@
 [ext_resource path="res://Lobby/LobbyBackground.tscn" type="PackedScene" id=4]
 [ext_resource path="res://GUI/cop.svg" type="Texture" id=5]
 [ext_resource path="res://GUI/criminal.svg" type="Texture" id=6]
-[ext_resource path="res://GUI/AudioMenu.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GUI/InGameMenu.tscn" type="PackedScene" id=7]
 [ext_resource path="res://GUI/Sun.svg" type="Texture" id=8]
 [ext_resource path="res://GUI/Moon.svg" type="Texture" id=9]
+[ext_resource path="res://Fonts/riesling.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://Fonts/FashionVictim.ttf" type="DynamicFontData" id=11]
+
+[sub_resource type="DynamicFont" id=1]
+size = 60
+outline_size = 4
+outline_color = Color( 0.607843, 0.0509804, 0.0509804, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 80
+outline_size = 2
+outline_color = Color( 0.607843, 0.0509804, 0.0509804, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 10 )
 
 [node name="Lobby" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -24,52 +42,70 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer"]
 margin_right = 1024.0
-margin_bottom = 34.0
-text = "Lobby"
+margin_bottom = 62.0
+custom_fonts/font = SubResource( 1 )
+text = "Kodeklubben Getaway"
 align = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
-margin_top = 38.0
+[node name="CenterContainer3" type="CenterContainer" parent="VBoxContainer"]
+margin_top = 66.0
 margin_right = 1024.0
-margin_bottom = 480.0
+margin_bottom = 104.0
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/CenterContainer3"]
+margin_left = 448.0
+margin_right = 576.0
+margin_bottom = 38.0
+text = "Join Game"
+items = [ "Join Game", null, false, 0, null, "Host Game", null, false, 1, null ]
+selected = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
+margin_top = 108.0
+margin_right = 1024.0
+margin_bottom = 504.0
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/CenterContainer"]
-margin_left = 285.0
-margin_right = 738.0
-margin_bottom = 442.0
+margin_left = 280.0
+margin_right = 744.0
+margin_bottom = 396.0
 custom_constants/vseparation = 8
 custom_constants/hseparation = 16
 columns = 2
 
 [node name="NameLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 2.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 36.0
 text = "Name"
 align = 2
 
 [node name="NameTextBox" type="LineEdit" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
-margin_right = 453.0
+margin_left = 144.0
+margin_right = 464.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 320, 0 )
 text = "Player"
 align = 1
 caret_blink = true
 
-[node name="IPLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
+[node name="IPLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"ClientOnly",
+]]
 margin_top = 48.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 82.0
 text = "IP"
 align = 2
 
-[node name="IPTextBox" type="LineEdit" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
+[node name="IPTextBox" type="LineEdit" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"ClientOnly",
+]]
+margin_left = 144.0
 margin_top = 46.0
-margin_right = 453.0
+margin_right = 464.0
 margin_bottom = 84.0
 rect_min_size = Vector2( 320, 0 )
 text = "127.0.0.1"
@@ -78,15 +114,15 @@ caret_blink = true
 
 [node name="PortLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 94.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 128.0
 text = "Port"
 align = 2
 
 [node name="PortTextBox" type="LineEdit" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
+margin_left = 144.0
 margin_top = 92.0
-margin_right = 453.0
+margin_right = 464.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 320, 0 )
 text = "32032"
@@ -95,15 +131,15 @@ caret_blink = true
 
 [node name="TeamLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 149.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 183.0
 text = "Team"
 align = 2
 
 [node name="TeamCheck" type="ItemList" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
+margin_left = 144.0
 margin_top = 138.0
-margin_right = 453.0
+margin_right = 464.0
 margin_bottom = 194.0
 items = [ "", ExtResource( 6 ), false, "", ExtResource( 5 ), false ]
 auto_height = true
@@ -113,17 +149,21 @@ fixed_column_width = 148
 icon_mode = 0
 fixed_icon_size = Vector2( 48, 48 )
 
-[node name="TimeLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
+[node name="TimeLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"HostOnly",
+]]
 margin_top = 213.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 247.0
-text = "Time"
+text = "Time of Day"
 align = 2
 
-[node name="TimeCheck" type="ItemList" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
+[node name="TimeCheck" type="ItemList" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"HostOnly",
+]]
+margin_left = 144.0
 margin_top = 202.0
-margin_right = 453.0
+margin_right = 464.0
 margin_bottom = 258.0
 items = [ "", ExtResource( 9 ), false, "", ExtResource( 8 ), false ]
 auto_height = true
@@ -135,61 +175,71 @@ fixed_icon_size = Vector2( 48, 48 )
 
 [node name="ColorPickerLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 268.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 302.0
 text = "Car Colour"
 align = 2
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
+margin_left = 144.0
 margin_top = 266.0
-margin_right = 453.0
+margin_right = 464.0
 margin_bottom = 304.0
 edit_alpha = false
 
-[node name="CityNameLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
+[node name="CityNameLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"HostOnly",
+]]
 margin_top = 314.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 348.0
 text = "City Name"
 align = 2
 
-[node name="CitySeed" type="LineEdit" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
+[node name="CitySeed" type="LineEdit" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"HostOnly",
+]]
+margin_left = 144.0
 margin_top = 312.0
-margin_right = 453.0
+margin_right = 464.0
 margin_bottom = 350.0
 align = 1
 
-[node name="CitySizeLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer"]
+[node name="CitySizeLabel" type="Label" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"HostOnly",
+]]
 margin_top = 360.0
-margin_right = 117.0
+margin_right = 128.0
 margin_bottom = 394.0
 text = "City Size"
 align = 2
 
-[node name="CitySizePicker" type="OptionButton" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
+[node name="CitySizePicker" type="OptionButton" parent="VBoxContainer/CenterContainer/GridContainer" groups=[
+"HostOnly",
+]]
+margin_left = 144.0
 margin_top = 358.0
-margin_right = 453.0
+margin_right = 464.0
 margin_bottom = 396.0
 text = "Medium"
 align = 1
 items = [ "Small", null, false, 0, null, "Medium", null, false, 1, null, "Large", null, false, 2, null, "Extra Large", null, false, 3, null ]
 selected = 1
 
-[node name="HostButton" type="Button" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_top = 404.0
-margin_right = 117.0
-margin_bottom = 442.0
-text = "Host Game"
+[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer"]
+margin_top = 508.0
+margin_right = 1024.0
+margin_bottom = 546.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="JoinButton" type="Button" parent="VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 404.0
-margin_right = 453.0
-margin_bottom = 442.0
-text = "Join Game"
+[node name="PlayButton" type="Button" parent="VBoxContainer/CenterContainer2"]
+margin_left = 362.0
+margin_right = 662.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 300, 0 )
+text = "Play Game!"
 
 [node name="WaitingRoom" parent="." instance=ExtResource( 3 )]
 visible = false
@@ -199,10 +249,7 @@ margin_top = 42.0
 margin_bottom = 42.0
 items = [ "Player 1", null, false, "Player 2", null, false ]
 
-[node name="AudioMenu" parent="." instance=ExtResource( 7 )]
-visible = false
-
-[node name="AudioButton" type="Button" parent="."]
+[node name="OptionsButton" type="Button" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -156.0
@@ -210,20 +257,37 @@ margin_top = 12.0
 margin_right = -12.0
 margin_bottom = 50.0
 theme = ExtResource( 1 )
-text = "Audio Settings"
+text = "Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InGameMenu" parent="." instance=ExtResource( 7 )]
+
+[node name="PlayerLabel" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -92.0
+margin_right = 1.0
+margin_bottom = -8.0
+custom_fonts/font = SubResource( 2 )
+text = "Player's Garage"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="tween_completed" from="LobbyBackground/Tween" to="." method="_on_Tween_tween_completed"]
+[connection signal="item_selected" from="VBoxContainer/CenterContainer3/OptionButton" to="." method="_on_OptionButton_item_selected"]
 [connection signal="text_changed" from="VBoxContainer/CenterContainer/GridContainer/NameTextBox" to="." method="_on_NameTextBox_text_changed"]
 [connection signal="item_selected" from="VBoxContainer/CenterContainer/GridContainer/TeamCheck" to="." method="_on_TeamCheck_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/CenterContainer/GridContainer/TimeCheck" to="." method="_on_TimeCheck_item_selected"]
 [connection signal="color_changed" from="VBoxContainer/CenterContainer/GridContainer/ColorPickerButton" to="." method="_on_ColorPickerButton_color_changed"]
 [connection signal="item_selected" from="VBoxContainer/CenterContainer/GridContainer/CitySizePicker" to="." method="_on_CitySizePicker_item_selected"]
-[connection signal="pressed" from="VBoxContainer/CenterContainer/GridContainer/HostButton" to="." method="_on_HostButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/CenterContainer/GridContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer2/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="WaitingRoom/VBoxContainer/ReadyButton" to="." method="_on_ReadyButton_pressed"]
-[connection signal="pressed" from="AudioButton" to="." method="_on_AudioButton_pressed"]
+[connection signal="pressed" from="OptionsButton" to="." method="_on_OptionsButton_pressed"]
 
 [editable path="LobbyBackground"]
 
