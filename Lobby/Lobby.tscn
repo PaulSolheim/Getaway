@@ -278,6 +278,7 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="tween_completed" from="LobbyBackground/Tween" to="." method="_on_Tween_tween_completed"]
 [connection signal="item_selected" from="VBoxContainer/CenterContainer3/OptionButton" to="." method="_on_OptionButton_item_selected"]
 [connection signal="text_changed" from="VBoxContainer/CenterContainer/GridContainer/NameTextBox" to="." method="_on_NameTextBox_text_changed"]
@@ -290,5 +291,4 @@ __meta__ = {
 [connection signal="pressed" from="OptionsButton" to="." method="_on_OptionsButton_pressed"]
 
 [editable path="LobbyBackground"]
-
 [editable path="WaitingRoom"]
